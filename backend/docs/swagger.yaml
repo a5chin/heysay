@@ -1,0 +1,76 @@
+definitions:
+  controller.GetUserResponse:
+    properties:
+      user:
+        $ref: '#/definitions/entity.User'
+    type: object
+  controller.GetUsersResponse:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/entity.User'
+        type: array
+    type: object
+  entity.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  entity.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: heysay
+  title: heysay
+  version: "1.0"
+paths:
+  /users:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.GetUsersResponse'
+      summary: 全ユーザー取得 API
+      tags:
+      - User
+  /users/{userId}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ユーザーID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.GetUserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/entity.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/entity.ErrorResponse'
+      summary: ユーザー取得 API
+      tags:
+      - User
+swagger: "2.0"
