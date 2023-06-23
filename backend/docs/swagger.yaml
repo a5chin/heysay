@@ -1,4 +1,9 @@
 definitions:
+  controller.CreateRoleRequest:
+    properties:
+      name:
+        type: string
+    type: object
   controller.GetUserResponse:
     properties:
       user:
@@ -31,6 +36,33 @@ info:
   title: heysay
   version: "1.0"
 paths:
+  /roles:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ロール作成リクエスト
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controller.CreateRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/entity.ErrorResponse'
+      summary: ロール作成 API
+      tags:
+      - Role
   /users:
     get:
       consumes:

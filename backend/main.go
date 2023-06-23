@@ -28,10 +28,13 @@ func main() {
 	tokenDriver := driver.NewTokenDriver(conf)
 
 	userRepogitory := repogitory.NewUserRepogitory(tokenDriver)
+	roleRepogitory := repogitory.NewRoleRepogitory(tokenDriver)
 
 	userUseCase := usecase.NewUserUseCase(userRepogitory)
+	roleUseCase := usecase.NewRoleUseCase(roleRepogitory)
 
 	userController := controller.NewUserController(userUseCase)
+	roleController := controller.NewRoleController(roleUseCase)
 
 	// Setup webserver
 	app := gin.Default()
@@ -46,6 +49,9 @@ func main() {
 	userRouter := api.Group("/users")
 	userRouter.GET("/", handleResponse(userController.GetUsers))
 	userRouter.GET("/:userId", handleResponse(userController.GetUserByID))
+
+	roleRouter := api.Group("/roles")
+	roleRouter.POST("/", handleResponse(roleController.CreateRole))
 
 	runApp(app, conf)
 }
