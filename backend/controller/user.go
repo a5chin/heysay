@@ -26,7 +26,9 @@ type GetUsersResponse struct {
 // @Tags		User
 // @Accept		json
 // @Produce		json
-// @Success		200		{object}	GetUsersResponse	"OK"
+// @Success		200		{object}	GetUsersResponse		"OK"
+// @Failure		401		{object}	entity.ErrorResponse
+// @Failure		404		{object}	entity.ErrorResponse
 // @Router		/users	[get]
 func (c UserController) GetUsers(ctx *gin.Context) (interface{}, error) {
 	users, err := c.UserUseCase.GetUsers(ctx)
@@ -46,7 +48,7 @@ type GetUserResponse struct {
 // @Description
 // @Tags		User
 // @Accept		json
-// @Param		userId			path		string					true	"ユーザーID"
+// @Param		userId			path		string					true	"ユーザー ID"
 // @Produce		json
 // @Success		200				{object}	GetUserResponse			"OK"
 // @Failure		401				{object}	entity.ErrorResponse
