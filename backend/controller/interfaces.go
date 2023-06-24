@@ -13,5 +13,6 @@ type UserUseCase interface {
 }
 
 type RoleUseCase interface {
+	GetRoles(ctx context.Context) ([]*entity.Role, error)
 	CreateRole(ctx context.Context, roleName string) error
 }

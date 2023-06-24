@@ -21,6 +21,19 @@ func NewRoleRepogitory(tokenDriver *driver.TokenDriver) *RoleRepogitory {
 	return &RoleRepogitory{tokenDriver}
 }
 
+func (r RoleRepogitory) GetRoles(ctx context.Context) ([]*entity.Role, error) {
+	records := []*model.Role{}
+	db, _ := ctx.Value(driver.TxKey).(*gorm.DB)
+	if err := db.Find(&records).Error; err != nil {
+		return nil, err
+	}
+	var roles []*entity.Role
+	for _, record := range records {
+		roles = append(roles, record.ToEntity())
+	}
+	return roles, nil
+}
+
 func (r RoleRepogitory) CreateRole(ctx context.Context, roleName string) error {
 	db, _ := ctx.Value(driver.TxKey).(*gorm.DB)
 	if err := db.Create(

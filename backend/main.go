@@ -51,6 +51,7 @@ func main() {
 	userRouter.GET("/:userId", handleResponse(userController.GetUserByID))
 
 	roleRouter := api.Group("/roles")
+	roleRouter.GET("/", handleResponse(roleController.GeteRoles))
 	roleRouter.POST("/", handleResponse(roleController.CreateRole))
 
 	runApp(app, conf)
