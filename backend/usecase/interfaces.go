@@ -14,5 +14,6 @@ type UserRepogitory interface {
 
 type RoleRepogitory interface {
 	GetRoles(ctx context.Context) ([]*entity.Role, error)
+	GetRoleByID(ctx context.Context, roleId string) (*entity.Role, error)
 	CreateRole(ctx context.Context, roleName string) error
 }

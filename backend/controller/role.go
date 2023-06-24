@@ -21,12 +21,12 @@ type GetRolesResponse struct {
 
 // GetRoles godoc
 //
-// @Summary	ロール取得 API
+// @Summary	全ロール取得 API
 // @Description
 // @Tags		Role
 // @Accept		json
 // @Produce		json
-// @Success		200		"OK"		GetRolesResponse
+// @Success		200		{object}	GetRolesResponse		"OK"
 // @Failure		401		{object}	entity.ErrorResponse
 // @Failure		404		{object}	entity.ErrorResponse
 // @Router		/roles	[get]
@@ -36,6 +36,31 @@ func (c RoleController) GeteRoles(ctx *gin.Context) (interface{}, error) {
 		return nil, entity.WrapError(http.StatusBadRequest, err)
 	}
 	return GetRolesResponse{Roles: roles}, nil
+}
+
+type GetRoleResponse struct {
+	Role *entity.Role `json:"role"`
+}
+
+// GetRoleByID godoc
+//
+// @Summary	ロール取得 API
+// @Description
+// @Tags		Role
+// @Accept		json
+// @Param		roleId			path		string					true	"ロール ID"
+// @Produce		json
+// @Success		200				{object}	GetRoleResponse			"OK"
+// @Failure		401				{object}	entity.ErrorResponse
+// @Failure		404				{object}	entity.ErrorResponse
+// @Router		/roles/{roleId} [get]
+func (c RoleController) GetRoleByID(ctx *gin.Context) (interface{}, error) {
+	roleId := ctx.Param("roleId")
+	role, err := c.RoleUseCase.GetRoleByID(ctx, roleId)
+	if err != nil {
+		return nil, entity.WrapError(http.StatusBadRequest, err)
+	}
+	return GetRoleResponse{Role: role}, nil
 }
 
 type CreateRoleRequest struct {
@@ -50,7 +75,7 @@ type CreateRoleRequest struct {
 // @Accept		json
 // @Produce		json
 // @Param		request	body		CreateRoleRequest		true	"ロール作成リクエスト"
-// @Success		200		"OK"
+// @Success		201		"Created"
 // @Failure		400		{object}	entity.ErrorResponse
 // @Failure		401		{object}	entity.ErrorResponse
 // @Router		/roles [post]

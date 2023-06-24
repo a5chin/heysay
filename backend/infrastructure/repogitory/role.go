@@ -34,6 +34,15 @@ func (r RoleRepogitory) GetRoles(ctx context.Context) ([]*entity.Role, error) {
 	return roles, nil
 }
 
+func (r RoleRepogitory) GetRoleByID(ctx context.Context, roleId string) (*entity.Role, error) {
+	var role *model.Role
+	db, _ := ctx.Value(driver.TxKey).(*gorm.DB)
+	if err := db.First(&role).Error; err != nil {
+		return nil, err
+	}
+	return role.ToEntity(), nil
+}
+
 func (r RoleRepogitory) CreateRole(ctx context.Context, roleName string) error {
 	db, _ := ctx.Value(driver.TxKey).(*gorm.DB)
 	if err := db.Create(

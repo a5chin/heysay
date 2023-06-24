@@ -17,6 +17,10 @@ func (u RoleUseCase) GetRoles(ctx context.Context) ([]*entity.Role, error) {
 	return u.RoleRepogitory.GetRoles(ctx)
 }
 
+func (u RoleUseCase) GetRoleByID(ctx context.Context, roleId string) (*entity.Role, error) {
+	return u.RoleRepogitory.GetRoleByID(ctx, roleId)
+}
+
 func (u RoleUseCase) CreateRole(ctx context.Context, roleName string) error {
 	return u.RoleRepogitory.CreateRole(ctx, roleName)
 }

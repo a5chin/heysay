@@ -27,15 +27,18 @@ const docTemplate = `{
                 "tags": [
                     "Role"
                 ],
-                "summary": "ロール取得 API",
+                "summary": "全ロール取得 API",
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller.GetRolesResponse"
+                        }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "type": "objec"
+                            "$ref": "#/definitions/entity.ErrorResponse"
                         }
                     },
                     "404": {
@@ -69,8 +72,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "201": {
+                        "description": "Created"
                     },
                     "400": {
                         "description": "Bad Request",
@@ -80,6 +83,49 @@ const docTemplate = `{
                     },
                     "401": {
                         "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/roles/{roleId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Role"
+                ],
+                "summary": "ロール取得 API",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ロール ID",
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller.GetRoleResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/entity.ErrorResponse"
                         }
@@ -105,6 +151,18 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/controller.GetUsersResponse"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/entity.ErrorResponse"
+                        }
                     }
                 }
             }
@@ -124,7 +182,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "ユーザーID",
+                        "description": "ユーザー ID",
                         "name": "userId",
                         "in": "path",
                         "required": true
@@ -162,6 +220,25 @@ const docTemplate = `{
                 }
             }
         },
+        "controller.GetRoleResponse": {
+            "type": "object",
+            "properties": {
+                "role": {
+                    "$ref": "#/definitions/entity.Role"
+                }
+            }
+        },
+        "controller.GetRolesResponse": {
+            "type": "object",
+            "properties": {
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Role"
+                    }
+                }
+            }
+        },
         "controller.GetUserResponse": {
             "type": "object",
             "properties": {
@@ -185,6 +262,17 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.Role": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }

@@ -52,6 +52,7 @@ func main() {
 
 	roleRouter := api.Group("/roles")
 	roleRouter.GET("/", handleResponse(roleController.GeteRoles))
+	roleRouter.GET("/:roleId", handleResponse(roleController.GetRoleByID))
 	roleRouter.POST("/", handleResponse(roleController.CreateRole))
 
 	runApp(app, conf)
