@@ -288,6 +288,12 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Role"
+                    }
                 }
             }
         }
