@@ -48,6 +48,10 @@ definitions:
         type: string
       name:
         type: string
+      roles:
+        items:
+          $ref: '#/definitions/entity.Role'
+        type: array
     type: object
 info:
   contact: {}

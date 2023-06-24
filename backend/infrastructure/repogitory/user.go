@@ -20,7 +20,7 @@ func NewUserRepogitory(tokenDriver *driver.TokenDriver) *UserRepogitory {
 func (r UserRepogitory) GetUsers(ctx context.Context) ([]*entity.User, error) {
 	records := []*model.User{}
 	db, _ := ctx.Value(driver.TxKey).(*gorm.DB)
-	if err := db.Find(&records).Error; err != nil {
+	if err := db.Preload("Roles").Find(&records).Error; err != nil {
 		return nil, err
 	}
 	var users []*entity.User
@@ -33,7 +33,7 @@ func (r UserRepogitory) GetUsers(ctx context.Context) ([]*entity.User, error) {
 func (r UserRepogitory) GetUserByID(ctx context.Context, userID string) (*entity.User, error) {
 	var user *model.User
 	db, _ := ctx.Value(driver.TxKey).(*gorm.DB)
-	if err := db.First(&user, "id = ?", userID).Error; err != nil {
+	if err := db.Preload("Roles").First(&user, "id = ?", userID).Error; err != nil {
 		return nil, err
 	}
 	return user.ToEntity(), nil
